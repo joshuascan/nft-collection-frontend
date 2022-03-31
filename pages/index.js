@@ -153,8 +153,7 @@ export default function Home() {
         providerOptions: {},
         disableInjectedProvider: false,
       });
-      connectWallet();
-
+    } else {
       const _presaleStarted = checkIfPresaleStarted();
       if (_presaleStarted) {
         checkIfPresaleEnded();
@@ -245,7 +244,7 @@ export default function Home() {
             It's an NFT collection for developers in Crypto.
           </div>
           <div className={styles.description}>
-            {tokenIdsMinted}/20 have been minted
+            {walletConnected ? `${tokenIdsMinted}/20 have been minted` : null}
           </div>
           {renderButton()}
         </div>
