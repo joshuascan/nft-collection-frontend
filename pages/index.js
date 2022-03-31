@@ -153,7 +153,8 @@ export default function Home() {
         providerOptions: {},
         disableInjectedProvider: false,
       });
-    } else {
+      connectWallet();
+
       const _presaleStarted = checkIfPresaleStarted();
       if (_presaleStarted) {
         checkIfPresaleEnded();
