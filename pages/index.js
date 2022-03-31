@@ -11,7 +11,7 @@ export default function Home() {
   const [presaleEnded, setPresaleEnded] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
-  const [tokenIdsMinted, setTokenIdsMinted] = useState(0);
+  const [tokenIdsMinted, setTokenIdsMinted] = useState("0");
   const web3ModalRef = useRef();
 
   const presaleMint = async () => {
@@ -87,10 +87,10 @@ export default function Home() {
 
   const checkIfPresaleEnded = async () => {
     try {
-      const provider = getProviderOrSigner();
+      const provider = await getProviderOrSigner();
       const nftContract = new Contract(NFT_CONTRACT_ADDRESS, abi, provider);
       const _presaleEnded = await nftContract.presaleEnded();
-      const hasEnded = _presaleEnded.It(Math.floor(Date.now() / 1000));
+      const hasEnded = _presaleEnded.lt(Math.floor(Date.now() / 1000));
       if (hasEnded) {
         setPresaleEnded(true);
       } else {
@@ -170,6 +170,10 @@ export default function Home() {
             clearInterval(presaleEndedInterval);
           }
         }
+      }, 5 * 1000);
+
+      setInterval(async function () {
+        await getTokenIdsMinted();
       }, 5 * 1000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
